@@ -1,4 +1,4 @@
-export default function renderGallery({ hits }, gallery) {
+export default function renderSearchResults({ hits }, gallery) {
   hits.forEach(item => {
     gallery.insertAdjacentHTML(
       'beforeend',

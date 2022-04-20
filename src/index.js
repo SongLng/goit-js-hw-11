@@ -37,6 +37,13 @@ async function onSearchBtnClick(event) {
   if (!searchResult.hits.length) {
     Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     btnLoadMore.classList.add('is-hidden');
+  }
+
+  if (searchResult.total < 40) {
+    Notify.success(`We've found ${searchResult.total} matches`);
+    renderGallery(searchResult, gallery);
+    btnLoadMore.classList.add('is-hidden');
+    createLightBox();
   } else {
     Notify.success(`We've found ${searchResult.total} matches`);
     renderGallery(searchResult, gallery);
@@ -57,9 +64,11 @@ async function onBtnLoadMore(event) {
     console.error(error);
   }
 
-  if (currentPage * 40 > searchResult.totalHits.length || currentPage * 40 > searchResult.total) {
+  if (currentPage * 40 > searchResult.totalHits || currentPage * 40 > searchResult.total) {
     Notify.warning("Sorry, we've reached the limit of our search");
+    btnLoadMore.classList.add('is-hidden');
   }
+
   renderGallery(searchResult, gallery);
   gallerySLB.refresh();
 }
